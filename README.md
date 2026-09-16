@@ -1,4 +1,4 @@
-# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.0
+# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.1
 
 Deterministic provider for `ai-core`. No network, no API key, no spend. If a turn against mock works, the install worked.
 
@@ -24,6 +24,7 @@ Prefix a user message to pick a completion:
 | `[mock:throw]` | Throws from the provider |
 | `[mock:unpriced]` | Text reply on `mock-unpriced` so cost stays unknown |
 
-## 1.0.0
+## Plugin releases
 
-First release, bundled with `ai-core`.
+- 1.0.1: Descriptor sets `configured: true` so mock stays on an empty allowed list when a keyless commercial provider is omitted.
+- 1.0.0: First release, bundled with `ai-core`.

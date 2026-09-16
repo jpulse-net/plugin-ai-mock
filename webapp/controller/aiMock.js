@@ -3,7 +3,7 @@
  * @tagline         Deterministic mock provider
  * @description     Scripted onAiComplete — no network, no spend
  * @file            plugins/ai-mock/webapp/controller/aiMock.js
- * @version         1.0.0
+ * @version         1.0.1
  * @release         2026-09-17
  * @repository      https://github.com/jpulse-net/plugin-ai-mock
  * @author          Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
@@ -104,7 +104,8 @@ class AiMockController {
             priceTable: {
                 [MODEL_ECHO]: { input: 0, output: 0, cacheWrite: 0, cacheRead: 0 }
             },
-            maxTokens: 4096
+            maxTokens: 4096,
+            configured: true
         });
         return ctx;
     }
