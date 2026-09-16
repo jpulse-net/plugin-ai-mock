@@ -10,7 +10,7 @@
 
 ## Setup
 
-1. Install the bundle (`npx jpulse plugin install @jpulse-net/plugin-ai`) if it is not already present.
+1. Install the bundle (`npx jpulse plugin install @jpulse-net/plugin-ai-core`) if it is not already present.
 2. Both plugins have `autoEnable: true`. If they were already discovered while disabled, enable them under **Admin → Plugins** and restart.
 3. On **Site Configuration → AI**, leave the default provider empty (the first registered provider is used) or set it to `ai-mock` / `mock-echo`.
 4. Start a thread and a turn. The chat panel is not in this release — use HTTP:
@@ -51,5 +51,5 @@ Client-host tools are not executed in this release. A site that registers only s
 
 - **JavaScript**: `webapp/controller/aiMock.js` — handles `onAiProviderRegister` and `onAiComplete`.
 - **Hooks**: defined by `ai-core` (`onAiProviderRegister` continue, `onAiComplete` abort). This plugin only handles them.
-- **Depends on**: `ai-core` (`@jpulse-net/plugin-ai` >= 1.0.0). jPulse >= 2.0.2 (plugin translation merge).
+- **Depends on**: `ai-core` (`@jpulse-net/plugin-ai-core` >= 1.0.0). jPulse >= 2.0.2 (plugin translation merge).
 - **Do not publish this directory.** Publish the bundle from `plugins/ai-core`.

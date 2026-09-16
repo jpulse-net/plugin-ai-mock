@@ -2,9 +2,9 @@
 
 Deterministic provider for `ai-core`. No network, no API key, no spend. If a turn against mock works, the install worked.
 
-Requires jPulse Framework >= 2.0.2. Depends on `ai-core` (same package, `@jpulse-net/plugin-ai`).
+Requires jPulse Framework >= 2.0.2. Depends on `ai-core` (same package, `@jpulse-net/plugin-ai-core`).
 
-`autoEnable` is true. Same `npmPackage` as the primary (`@jpulse-net/plugin-ai`). No `webapp/bump-version.conf`. Its `package.json` is a publish guard only — `npm publish` here fails and names `ai-core`, and staging strips the file, so the published bundle has no `plugins/ai-mock/package.json`.
+`autoEnable` is true. Same `npmPackage` as the primary (`@jpulse-net/plugin-ai-core`). No `webapp/bump-version.conf`. Its `package.json` is a publish guard only — `npm publish` here fails and names `ai-core`, and staging strips the file, so the published bundle has no `plugins/ai-mock/package.json`.
 
 Do not publish this directory. Publish the bundle from `plugins/ai-core`.
 
