@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+ * @name            jPulse Framework / Plugins / AI Mock / WebApp / View / jPulse Plugins / AI Mock
+ * @tagline         AI Mock plugin overview
+ * @description     Dashboard card for the deterministic mock provider
+ * @file            plugins/ai-mock/webapp/view/jpulse-plugins/ai-mock.shtml
+ * @version         1.0.0
+ * @release         2026-09-17
+ * @repository      https://github.com/jpulse-net/plugin-ai-mock
+ * @author          Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
+ * @copyright       2026 Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
+ * @license         BSL 1.1 -- see LICENSE file; for commercial use: team@jpulse.net
+ * @genai           80%, Cursor 3.20, Grok 4.6
+-->
+<html {{appConfig.system.htmlAttrs}}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mock Plugin - {{app.site.shortName}}</title>
+    {{file.include "jpulse-header.tmpl"}}
+</head>
+<body>
+    {{#component "pluginCards.aiMock" order=41}}
+        <a href="/jpulse-plugins/ai-mock.shtml" class="jp-card-dashboard jp-icon-btn">
+            <div class="jp-icon-container"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg></div>
+            <h3 class="jp-card-title">AI Mock</h3>
+            <p class="jp-card-description">Deterministic provider — no network, no spend</p>
+        </a>
+    {{/component}}
+    <div class="jp-main">
+        <div class="jp-container-1000">
+            <div class="jp-page-header">
+                <h1><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg> AI Mock Plugin</h1>
+                <span class="jp-subtitle">Scripted completions for ai-core</span>
+            </div>
+            <p>Companion of <code>ai-core</code>; both auto-enable. Prefix a user message with <code>[mock:text]</code>, <code>[mock:tools]</code>, <code>[mock:truncated]</code>, <code>[mock:retry]</code>, <code>[mock:fatal]</code>, <code>[mock:slow]</code>, <code>[mock:hang]</code>, <code>[mock:throw]</code>, or <code>[mock:unpriced]</code>.</p>
+            <p><a href="/jpulse-docs/installed-plugins/ai-mock/README">Installed-plugin guide</a></p>
+        </div>
+    </div>
+    {{file.include "jpulse-footer.tmpl"}}
+</body>
+</html>

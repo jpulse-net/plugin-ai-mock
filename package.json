@@ -1,0 +1,10 @@
+{
+    "name": "plugin-ai-mock-guard",
+    "version": "1.0.0",
+    "description": "Guard only. ai-mock ships inside @jpulse-net/plugin-ai; this file is stripped from the published bundle.",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "prepublishOnly": "node -e \"console.error('ai-mock is a bundle companion of ai-core. Publish the primary instead: cd ../ai-core && npm publish, or npx jpulse plugin publish ai-core'); process.exit(1)\""
+    }
+}
