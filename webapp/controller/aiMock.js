@@ -3,7 +3,7 @@
  * @tagline         Deterministic mock provider
  * @description     Scripted onAiComplete — no network, no spend
  * @file            plugins/ai-mock/webapp/controller/aiMock.js
- * @version         1.0.1
+ * @version         1.0.2
  * @release         2026-09-17
  * @repository      https://github.com/jpulse-net/plugin-ai-mock
  * @author          Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
@@ -46,6 +46,111 @@ function lastUserText(messages) {
     return '';
 }
 
+export function getPath(value, dotted) {
+    let current = value;
+    for (const part of String(dotted || '').split('.')) {
+        if (current == null || typeof current !== 'object') {
+            return undefined;
+        }
+        current = current[part];
+    }
+    return current;
+}
+
+export function resolvePriorValue(value, prior) {
+    if (typeof value === 'string' && value.startsWith('$prior.')) {
+        const resolved = getPath(prior, value.slice(7));
+        return resolved === undefined ? value : resolved;
+    }
+    if (Array.isArray(value)) {
+        return value.map(item => resolvePriorValue(item, prior));
+    }
+    if (value && typeof value === 'object') {
+        const next = {};
+        for (const [key, item] of Object.entries(value)) {
+            next[key] = resolvePriorValue(item, prior);
+        }
+        return next;
+    }
+    return value;
+}
+
+export function parseToolExtra(extra) {
+    const text = String(extra || '');
+    if (!text) {
+        return { name: '', args: {} };
+    }
+    const colon = text.indexOf(':');
+    if (colon < 0) {
+        return { name: text, args: {} };
+    }
+    const name = text.slice(0, colon);
+    let args = {};
+    try {
+        args = JSON.parse(text.slice(colon + 1));
+    } catch {
+        args = {};
+    }
+    return { name, args: args && typeof args === 'object' && !Array.isArray(args) ? args : {} };
+}
+
+export function priorFromRows(rows) {
+    const row = rows && rows[0] ? rows[0] : {};
+    if (row.result && row.result.data !== undefined) {
+        return row.result.data;
+    }
+    if (row.data !== undefined) {
+        return row.data;
+    }
+    if (row.result && typeof row.result === 'object') {
+        return row.result;
+    }
+    return row;
+}
+
+export function lastToolResults(messages) {
+    const list = messages || [];
+    for (let i = list.length - 1; i >= 0; i--) {
+        if (list[i].role === 'tool') {
+            const rows = [];
+            let start = i;
+            while (start >= 0 && list[start].role === 'tool') {
+                start -= 1;
+            }
+            for (let idx = start + 1; idx <= i; idx += 1) {
+                const msg = list[idx];
+                let parsed = msg.content;
+                if (typeof parsed === 'string') {
+                    try {
+                        parsed = JSON.parse(parsed);
+                    } catch {
+                        parsed = { summary: parsed };
+                    }
+                }
+                rows.push({
+                    id: msg.toolCallId || msg.id,
+                    name: msg.name,
+                    ...(parsed && typeof parsed === 'object' ? parsed : {})
+                });
+            }
+            return rows;
+        }
+        if (list[i].role !== 'user') {
+            continue;
+        }
+        const content = flattenContent(list[i].content);
+        try {
+            const parsed = JSON.parse(content);
+            if (Array.isArray(parsed)) {
+                return parsed;
+            }
+        } catch {
+            return [];
+        }
+    }
+    return [];
+}
+
 function parseScript(ctx) {
     if (ctx.script && typeof ctx.script === 'object') {
         return ctx.script;
@@ -63,6 +168,20 @@ function parseScript(ctx) {
         extra: match[2] || '',
         text: text.replace(match[0], '').trim() || 'Mock reply.'
     };
+}
+
+function toolSteps(script) {
+    if (Array.isArray(script.steps) && script.steps.length) {
+        return script.steps;
+    }
+    if (script.name) {
+        return [{ name: script.name, args: script.args || {} }];
+    }
+    const parsed = parseToolExtra(script.extra);
+    if (parsed.name) {
+        return [parsed];
+    }
+    return [];
 }
 
 function usage() {
@@ -133,6 +252,34 @@ class AiMockController {
             emit({ type: 'tool_use_truncated', name: toolNames[0] || 'unknown' });
             emit(usage());
             emit({ type: 'done', stopReason: 'length' });
+            return ctx;
+        }
+
+        if (script.type === 'tool') {
+            const steps = toolSteps(script);
+            const round = ctx.round || 0;
+            if (round < steps.length) {
+                const priorRows = lastToolResults(ctx.messages);
+                const prior = priorFromRows(priorRows);
+                const step = steps[round] || {};
+                const args = resolvePriorValue(step.args || {}, prior);
+                const name = step.name || toolNames[0] || 'unknown';
+                emit({
+                    type: 'tool_use',
+                    calls: [{ id: `call_${round + 1}`, name, args }]
+                });
+                emit(usage());
+                emit({ type: 'done', stopReason: 'tool' });
+                return ctx;
+            }
+            const priorRows = lastToolResults(ctx.messages);
+            const summary = priorRows.map(row => row.summary || row.result?.summary || row.name).join('; ');
+            emit({
+                type: 'text_delta',
+                text: script.text || `Used ${priorRows.map(row => row.name).join(', ') || 'tools'}. ${summary}`.trim()
+            });
+            emit(usage());
+            emit({ type: 'done', stopReason: 'end' });
             return ctx;
         }
 

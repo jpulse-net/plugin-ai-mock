@@ -1,4 +1,4 @@
-# jPulse Docs / Installed Plugins / AI Mock Provider Plugin v1.0.1
+# jPulse Docs / Installed Plugins / AI Mock Provider Plugin v1.0.2
 
 `ai-mock` is a deterministic provider for `ai-core`. It has no API key and does not call a language-model service. A turn against mock is the smoke test that an install worked. Use it in unit tests and local development. A commercial provider is a separate package (`@jpulse-net/plugin-ai-anthropic`). The mock always reports `configured: true`, so it stays on the menu when the allowed list is empty.
 
@@ -13,14 +13,14 @@
 1. Install the bundle (`npx jpulse plugin install @jpulse-net/plugin-ai-core`) if it is not already present.
 2. Both plugins have `autoEnable: true`. If they were already discovered while disabled, enable them under **Admin → Plugins** and restart.
 3. On **Site Configuration → AI**, leave the default provider empty (the first registered provider is used) or set it to `ai-mock` / `mock-echo`.
-4. Start a thread and a turn. The chat panel is not in this release — use HTTP:
+4. Open `/hello-ai/` and send a message, or start a thread and a turn over HTTP:
 
 ```
-POST /api/1/ai/thread          { "scopeType": "doc", "scopeId": "demo" }
+POST /api/1/ai/thread          { "scopeType": "hello-ai", "scopeId": "demo" }
 POST /api/1/ai/thread/:id/turn { "text": "[mock:text] Hello" }
 ```
 
-The second call is Server-Sent Events.
+The second call is Server-Sent Events unless a client-host tool is offered, in which case the panel uses the per-thread WebSocket.
 
 ## Scripts
 
@@ -35,10 +35,13 @@ The second call is Server-Sent Events.
 | `[mock:hang]` | Waits on the abort signal (optional `:[ms]` fallback). Cancel with `POST /api/1/ai/thread/:id/cancel`, not by closing the SSE connection. |
 | `[mock:throw]` | Throws from the provider. The turn fails. |
 | `[mock:unpriced]` | Replies on `mock-unpriced` (no price row) so recorded cost stays `null`. |
+| `[mock:tool:<name>:<jsonArgs>]` | One `tool_use` for that name and arguments, then a text summary. |
+
+The structured field `script: { type: 'tool', name, args }` is the same as the bracket form. A sequence is `script: { type: 'tool', steps: [ { name, args }, … ] }` — one call per round, then a summary. An argument whose value is `$prior.<dotted.path>` resolves against the previous round's first tool result; an unresolvable path is left as a literal.
+
+The bracket form cannot carry a `]` inside the JSON (the marker ends there). Objects and scalars are fine; use the structured field for arrays.
 
 Example: `[mock:tools] outline this document`
-
-Client-host tools are not executed in this release. A site that registers only server-host tools is enough to exercise `[mock:tools]`.
 
 ## Models
 
@@ -51,5 +54,5 @@ Client-host tools are not executed in this release. A site that registers only s
 
 - **JavaScript**: `webapp/controller/aiMock.js` — handles `onAiProviderRegister` and `onAiComplete`.
 - **Hooks**: defined by `ai-core` (`onAiProviderRegister` continue, `onAiComplete` abort). This plugin only handles them.
-- **Depends on**: `ai-core` (`@jpulse-net/plugin-ai-core` >= 1.0.0). jPulse >= 2.0.2 (plugin translation merge).
+- **Depends on**: `ai-core` (`@jpulse-net/plugin-ai-core` >= 1.0.0). jPulse >= 2.0.3 (awaitable WebSocket `onCreate`).
 - **Do not publish this directory.** Publish the bundle from `plugins/ai-core`.
