@@ -3,7 +3,7 @@
  * @tagline         Deterministic mock provider
  * @description     Scripted onAiComplete — no network, no spend
  * @file            plugins/ai-mock/webapp/controller/aiMock.js
- * @version         1.0.3
+ * @version         1.0.4
  * @release         2026-09-17
  * @repository      https://github.com/jpulse-net/plugin-ai-mock
  * @author          Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
@@ -14,6 +14,7 @@
 
 const MODEL_ECHO = 'mock-echo';
 const MODEL_UNPRICED = 'mock-unpriced';
+const MODEL_VISION = 'mock-vision';
 
 export function flattenContent(content) {
     if (typeof content === 'string') {
@@ -36,12 +37,56 @@ export function flattenContent(content) {
     }).join('');
 }
 
+export function imageNamesFromContent(content) {
+    if (!Array.isArray(content)) {
+        return [];
+    }
+    return content.map((part) => {
+        if (!part || part.type !== 'image') {
+            return '';
+        }
+        return String(part.name || part.mimeType || 'image');
+    }).filter(Boolean);
+}
+
+function lastUserImages(messages) {
+    for (let i = (messages || []).length - 1; i >= 0; i--) {
+        if (messages[i].role !== 'user') {
+            continue;
+        }
+        const names = imageNamesFromContent(messages[i].content);
+        if (names.length) {
+            return names;
+        }
+    }
+    return [];
+}
+
+function firstTextPart(content) {
+    if (typeof content === 'string') {
+        return content;
+    }
+    if (!Array.isArray(content)) {
+        return '';
+    }
+    for (let i = 0; i < content.length; i++) {
+        const part = content[i];
+        if (typeof part === 'string' && part) {
+            return part;
+        }
+        if (part && part.type === 'text' && part.text) {
+            return String(part.text);
+        }
+    }
+    return '';
+}
+
 function lastUserText(messages) {
     for (let i = (messages || []).length - 1; i >= 0; i--) {
         if (messages[i].role !== 'user') {
             continue;
         }
-        return flattenContent(messages[i].content);
+        return firstTextPart(messages[i].content) || flattenContent(messages[i].content);
     }
     return '';
 }
@@ -217,7 +262,8 @@ class AiMockController {
             label: 'Mock',
             models: [
                 { id: MODEL_ECHO, label: 'Mock Echo' },
-                { id: MODEL_UNPRICED, label: 'Mock Unpriced' }
+                { id: MODEL_UNPRICED, label: 'Mock Unpriced' },
+                { id: MODEL_VISION, label: 'Mock Vision', capabilities: { vision: true } }
             ],
             capabilities: { vision: false },
             priceTable: {
@@ -328,6 +374,18 @@ class AiMockController {
                 const wait = Number(script.extra) || 20;
                 await new Promise(resolve => setTimeout(resolve, wait));
             }
+            emit(usage());
+            emit({ type: 'done', stopReason: 'end' });
+            return ctx;
+        }
+
+        const images = lastUserImages(ctx.messages);
+        if ((ctx.model === MODEL_VISION || script.type === 'vision') && images.length) {
+            const seen = `I can see ${images.join(', ')}.`;
+            emit({
+                type: 'text_delta',
+                text: script.type === 'vision' && script.text ? script.text : seen
+            });
             emit(usage());
             emit({ type: 'done', stopReason: 'end' });
             return ctx;
