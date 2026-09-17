@@ -1,4 +1,4 @@
-# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.2
+# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.3
 
 Deterministic provider for `ai-core`. No network, no API key, no spend. If a turn against mock works, the install worked.
 
