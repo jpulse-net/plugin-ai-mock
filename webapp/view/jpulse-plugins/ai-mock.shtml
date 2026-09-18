@@ -4,7 +4,7 @@
  * @tagline         AI Mock plugin overview
  * @description     Dashboard card for the deterministic mock provider
  * @file            plugins/ai-mock/webapp/view/jpulse-plugins/ai-mock.shtml
- * @version         1.0.5
+ * @version         1.0.6
  * @release         2026-09-17
  * @repository      https://github.com/jpulse-net/plugin-ai-mock
  * @author          Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
