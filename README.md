@@ -1,4 +1,4 @@
-# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.4
+# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.5
 
 Deterministic provider for `ai-core`. No network, no API key, no spend. If a turn against mock works, the install worked.
 
@@ -31,6 +31,9 @@ The bracket form cannot carry a `]` inside the JSON (the marker ends there). Obj
 
 ## Plugin releases
 
+- 1.0.5: Version lockstep with `ai-core` 1.0.5. No product change.
+- 1.0.4: Mock Vision row — `capabilities.vision` on `mock-vision` so the send-time vision gate is demonstrable with no API key. Default reply is `I can see <file>.`
+- 1.0.3: Version lockstep with `ai-core` 1.0.3. No product change.
 - 1.0.2: Targeted `[mock:tool:…]` script and structured `steps` with `$prior.<path>`.
 - 1.0.1: Descriptor sets `configured: true` so mock stays on an empty allowed list when a keyless commercial provider is omitted.
 - 1.0.0: First release, bundled with `ai-core`.
