@@ -1,6 +1,6 @@
 {
     "name": "plugin-ai-mock-guard",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "Guard only. ai-mock ships inside @jpulse-net/plugin-ai-core; this file is stripped from the published bundle.",
     "private": true,
     "type": "module",
