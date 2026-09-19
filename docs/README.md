@@ -1,4 +1,4 @@
-# jPulse Docs / Installed Plugins / AI Mock Provider Plugin v1.0.9
+# jPulse Docs / Installed Plugins / AI Mock Provider Plugin v1.0.10
 
 `ai-mock` is a deterministic provider for `ai-core`. It has no API key and does not call a language-model service. A turn against mock is the smoke test that an install worked. Use it in unit tests and local development. A commercial provider is a separate package (`@jpulse-net/plugin-ai-anthropic`). The mock always reports `configured: true`, so it stays on the menu when the allowed list is empty.
 
@@ -54,5 +54,19 @@ Example: `[mock:tools] outline this document`
 
 - **JavaScript**: `webapp/controller/aiMock.js` — handles `onAiProviderRegister` and `onAiComplete`.
 - **Hooks**: defined by `ai-core` (`onAiProviderRegister` continue, `onAiComplete` abort). This plugin only handles them.
-- **Depends on**: `ai-core` (`@jpulse-net/plugin-ai-core` >= 1.0.0). jPulse >= 2.0.3 (awaitable WebSocket `onCreate`).
+- **Depends on**: `ai-core` (`@jpulse-net/plugin-ai-core` >= 1.0.0). jPulse >= 2.0.5 (`jPulse.ws` queues a send until the socket is open).
 - **Do not publish this directory.** Publish the bundle from `plugins/ai-core`.
+
+## Plugin releases
+
+- **1.0.10**, W-237, 2026-09-19: Version lockstep with `ai-core` 1.0.10. No product change.
+- **1.0.9**, W-234, 2026-09-19: Version lockstep with `ai-core` 1.0.9. No product change.
+- **1.0.8**, W-233, 2026-09-19: Version lockstep with `ai-core` 1.0.8. No product change.
+- **1.0.7**, W-232, 2026-09-18: Version lockstep with `ai-core` 1.0.7. No product change.
+- **1.0.6**, W-231, 2026-09-17: Version lockstep with `ai-core` 1.0.6. No product change.
+- **1.0.5**, W-230, 2026-09-17: Version lockstep with `ai-core` 1.0.5. No product change.
+- **1.0.4**, W-228, 2026-09-17: Mock Vision row — `capabilities.vision` on `mock-vision` so the send-time vision gate is demonstrable with no API key. Default reply is `I can see <file>.`
+- **1.0.3**, W-227, 2026-09-17: Version lockstep with `ai-core` 1.0.3. No product change.
+- **1.0.2**, W-226, 2026-09-17: Targeted `[mock:tool:…]` script and structured `steps` with `$prior.<path>`.
+- **1.0.1**, W-224, 2026-09-17: Descriptor sets `configured: true` so mock stays on an empty allowed list when a keyless commercial provider is omitted.
+- **1.0.0**, W-223, 2026-09-17: First release, bundled with `ai-core`.
