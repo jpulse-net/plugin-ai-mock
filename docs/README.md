@@ -1,4 +1,4 @@
-# jPulse Docs / Installed Plugins / AI Mock Provider Plugin v1.0.11
+# jPulse Docs / Installed Plugins / AI Mock Provider Plugin v1.0.12
 
 `ai-mock` is a deterministic provider for `ai-core`. It has no API key and does not call a language-model service. A turn against mock is the smoke test that an install worked. Use it in unit tests and local development. A commercial provider is a separate package (`@jpulse-net/plugin-ai-anthropic`). The mock always reports `configured: true`, so it stays on the menu when the allowed list is empty.
 
@@ -59,6 +59,7 @@ Example: `[mock:tools] outline this document`
 
 ## Plugin releases
 
+- **1.0.12**, W-239, 2026-09-19: Version lockstep with `ai-core` 1.0.12. No product change.
 - **1.0.11**, W-238, 2026-09-19: Version lockstep with `ai-core` 1.0.11. No product change.
 - **1.0.10**, W-237, 2026-09-19: Version lockstep with `ai-core` 1.0.10. No product change.
 - **1.0.9**, W-234, 2026-09-19: Version lockstep with `ai-core` 1.0.9. No product change.

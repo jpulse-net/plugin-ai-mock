@@ -1,7 +1,7 @@
 {
     "name": "ai-mock",
     "npmPackage": "@jpulse-net/plugin-ai-core",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/></svg>",
     "summary": "Deterministic mock AI provider — no network, no spend",
     "description": "<p>Scripted completions for <code>ai-core</code>. Installs with the <code>@jpulse-net/plugin-ai-core</code> bundle. Answers without an API key so a fresh install and CI can run a turn. Do not install this plugin separately.</p>",
