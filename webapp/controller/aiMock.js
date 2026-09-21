@@ -3,8 +3,8 @@
  * @tagline         Deterministic mock provider
  * @description     Scripted onAiComplete — no network, no spend
  * @file            plugins/ai-mock/webapp/controller/aiMock.js
- * @version         1.0.13
- * @release         2026-09-19
+ * @version         1.0.14
+ * @release         2026-09-20
  * @repository      https://github.com/jpulse-net/plugin-ai-mock
  * @author          Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/
  * @copyright       2026 Peter Thoeny, https://twiki.org & https://github.com/peterthoeny/

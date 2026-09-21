@@ -1,8 +1,8 @@
-# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.13
+# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.14
 
 Deterministic provider for `ai-core`. No network, no API key, no spend. If a turn against mock works, the install worked.
 
-Requires jPulse Framework >= 2.0.5. Depends on `ai-core` (same package, `@jpulse-net/plugin-ai-core`).
+Requires jPulse Framework >= 2.0.8. Depends on `ai-core` (same package, `@jpulse-net/plugin-ai-core`).
 
 `autoEnable` is true. Same `npmPackage` as the primary (`@jpulse-net/plugin-ai-core`). No `webapp/bump-version.conf`. Its `package.json` is a publish guard only — `npm publish` here fails and names `ai-core`, and staging strips the file, so the published bundle has no `plugins/ai-mock/package.json`.
 
@@ -31,6 +31,7 @@ The bracket form cannot carry a `]` inside the JSON (the marker ends there). Obj
 
 ## Plugin releases
 
+- **1.0.14**, W-245, 2026-09-20: Version lockstep with `ai-core` 1.0.14. No product change.
 - **1.0.13**, W-241, 2026-09-19: Version lockstep with `ai-core` 1.0.13. No product change.
 - **1.0.12**, W-239, 2026-09-19: Version lockstep with `ai-core` 1.0.12. No product change.
 - **1.0.11**, W-238, 2026-09-19: Version lockstep with `ai-core` 1.0.11. No product change.
