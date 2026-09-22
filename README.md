@@ -1,4 +1,4 @@
-# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.14
+# jPulse Framework / Plugins / AI Mock Provider Plugin v1.0.15
 
 Deterministic provider for `ai-core`. No network, no API key, no spend. If a turn against mock works, the install worked.
 
@@ -31,6 +31,7 @@ The bracket form cannot carry a `]` inside the JSON (the marker ends there). Obj
 
 ## Plugin releases
 
+- **1.0.15**, W-247, 2026-09-21: Version lockstep with `ai-core` 1.0.15. No product change.
 - **1.0.14**, W-245, 2026-09-20: Version lockstep with `ai-core` 1.0.14. No product change.
 - **1.0.13**, W-241, 2026-09-19: Version lockstep with `ai-core` 1.0.13. No product change.
 - **1.0.12**, W-239, 2026-09-19: Version lockstep with `ai-core` 1.0.12. No product change.
